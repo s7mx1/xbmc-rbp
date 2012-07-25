@@ -153,7 +153,7 @@ public:
 };
 
 
-CDVDPlayerAudio::CDVDPlayerAudio(CDVDClock* pClock, CDVDMessageQueue& parent)
+CDVDPlayerAudio::CDVDPlayerAudio(OMXClock* pClock, CDVDMessageQueue& parent)
 : CThread("CDVDPlayerAudio")
 , m_messageQueue("audio")
 , m_messageParent(parent)

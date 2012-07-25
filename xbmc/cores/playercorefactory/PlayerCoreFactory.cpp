@@ -27,6 +27,7 @@
 #include "cores/paplayer/DVDPlayerCodec.h"
 #if defined(HAVE_OMXPLAYER)
 #include "cores/omxplayer/OMXPlayer.h"
+#include "cores/omxaeplayer/OMXPlayer.h"
 #endif
 #include "dialogs/GUIDialogContextMenu.h"
 #include "utils/HttpHeader.h"

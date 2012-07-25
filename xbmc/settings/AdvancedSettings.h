@@ -107,6 +107,7 @@ class CAdvancedSettings
     int m_audioResample;
     bool m_allowTranscode44100;
     bool m_audioForceDirectSound;
+    bool m_audioAudioEngine;
     bool m_audioAudiophile;
     bool m_allChannelStereo;
     int m_audioSinkBufferDurationMsec;
@@ -119,6 +120,7 @@ class CAdvancedSettings
 
     float m_videoSubsDelayRange;
     float m_videoAudioDelayRange;
+    bool m_videoAudioEngine;
     int m_videoSmallStepBackSeconds;
     int m_videoSmallStepBackTries;
     int m_videoSmallStepBackDelay;

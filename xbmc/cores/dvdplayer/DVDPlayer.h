@@ -27,7 +27,7 @@
 #include "IDVDPlayer.h"
 
 #include "DVDMessageQueue.h"
-#include "DVDClock.h"
+#include "../omxplayer/OMXClock.h"
 #include "DVDPlayerAudio.h"
 #include "DVDPlayerVideo.h"
 #include "DVDPlayerSubtitle.h"
@@ -356,7 +356,7 @@ protected:
   CDVDPlayerSubtitle m_dvdPlayerSubtitle; // subtitle part
   CDVDTeletextData m_dvdPlayerTeletext; // teletext part
 
-  CDVDClock m_clock;                // master clock
+  OMXClock m_clock;                // master clock
   CDVDOverlayContainer m_overlayContainer;
 
   CDVDInputStream* m_pInputStream;  // input stream for current playing file

@@ -124,7 +124,7 @@ endif
 
 ifeq (@USE_OMXPLAYER@,1)
 OMXPLAYER_ARCHIVES = xbmc/cores/omxplayer/OMXPlayer.a
-DIRECTORY_ARCHIVES += $(OMXPLAYER_ARCHIVES)
+DIRECTORY_ARCHIVES += $(OMXPLAYER_ARCHIVES) xbmc/cores/omxaeplayer/OMXPlayer.a
 endif
 
 BIN_DIRS = $(dir $(DIRECTORY_ARCHIVES)) $(dir $(NWAOBJSXBMC))

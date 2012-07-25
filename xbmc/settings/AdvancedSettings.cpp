@@ -53,6 +53,7 @@ void CAdvancedSettings::Initialize()
   m_audioResample = 0;
   m_allowTranscode44100 = false;
   m_audioForceDirectSound = false;
+  m_audioAudioEngine = false;
   m_audioAudiophile = false;
   m_allChannelStereo = false;
   m_audioSinkBufferDurationMsec = 50;
@@ -78,6 +79,7 @@ void CAdvancedSettings::Initialize()
 
   m_videoSubsDelayRange = 10;
   m_videoAudioDelayRange = 10;
+  m_videoAudioEngine = false;
   m_videoSmallStepBackSeconds = 7;
   m_videoSmallStepBackTries = 3;
   m_videoSmallStepBackDelay = 300;
@@ -375,6 +377,7 @@ void CAdvancedSettings::ParseSettingsFile(const CStdString &file)
     XMLUtils::GetInt(pElement, "resample", m_audioResample, 0, 192000);
     XMLUtils::GetBoolean(pElement, "allowtranscode44100", m_allowTranscode44100);
     XMLUtils::GetBoolean(pElement, "forceDirectSound", m_audioForceDirectSound);
+    XMLUtils::GetBoolean(pElement, "audioengine", m_audioAudioEngine);
     XMLUtils::GetBoolean(pElement, "audiophile", m_audioAudiophile);
     XMLUtils::GetBoolean(pElement, "allchannelstereo", m_allChannelStereo);
     XMLUtils::GetString(pElement, "transcodeto", m_audioTranscodeTo);
@@ -432,6 +435,7 @@ void CAdvancedSettings::ParseSettingsFile(const CStdString &file)
   {
     XMLUtils::GetFloat(pElement, "subsdelayrange", m_videoSubsDelayRange, 10, 600);
     XMLUtils::GetFloat(pElement, "audiodelayrange", m_videoAudioDelayRange, 10, 600);
+    XMLUtils::GetBoolean(pElement, "audioengine", m_videoAudioEngine);
     XMLUtils::GetInt(pElement, "blackbarcolour", m_videoBlackBarColour, 0, 255);
     XMLUtils::GetString(pElement, "defaultplayer", m_videoDefaultPlayer);
     XMLUtils::GetString(pElement, "defaultdvdplayer", m_videoDefaultDVDPlayer);

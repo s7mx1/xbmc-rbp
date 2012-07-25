@@ -28,6 +28,7 @@
 #include "cores/ExternalPlayer/ExternalPlayer.h"
 #if defined(HAVE_OMXPLAYER)
 #include "cores/omxplayer/OMXPlayer.h"
+#include "cores/omxaeplayer/OMXPlayer.h"
 #endif
 #include "utils/log.h"
 
@@ -75,8 +76,26 @@ public:
     {
       case EPC_MPLAYER:
 #if defined(HAVE_OMXPLAYER)
-      case EPC_DVDPLAYER: pPlayer = new COMXPlayer(callback); break;
-      case EPC_PAPLAYER: pPlayer = new COMXPlayer(callback); break;
+      case EPC_DVDPLAYER: 
+      if ( g_advancedSettings.m_videoAudioEngine )
+      {
+        pPlayer = new COMXAEPlayer(callback);
+      }
+      else
+      {
+        pPlayer = new COMXPlayer(callback);
+      }
+      break;
+      case EPC_PAPLAYER:
+      if ( g_advancedSettings.m_audioAudioEngine )
+      {
+        pPlayer = new PAPlayer(callback);
+      }
+      else 
+      {
+        pPlayer = new COMXPlayer(callback);
+      }
+      break;
 #else
       case EPC_DVDPLAYER: pPlayer = new CDVDPlayer(callback); break;
       case EPC_PAPLAYER: pPlayer = new PAPlayer(callback); break;

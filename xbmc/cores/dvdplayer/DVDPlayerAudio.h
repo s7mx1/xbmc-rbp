@@ -23,7 +23,7 @@
 #include "threads/Thread.h"
 
 #include "DVDAudio.h"
-#include "DVDClock.h"
+#include "../omxplayer/OMXClock.h"
 #include "DVDMessageQueue.h"
 #include "DVDDemuxers/DVDDemuxUtils.h"
 #include "DVDStreamInfo.h"
@@ -94,7 +94,7 @@ public:
 class CDVDPlayerAudio : public CThread
 {
 public:
-  CDVDPlayerAudio(CDVDClock* pClock, CDVDMessageQueue& parent);
+  CDVDPlayerAudio(OMXClock* pClock, CDVDMessageQueue& parent);
   virtual ~CDVDPlayerAudio();
 
   bool OpenStream(CDVDStreamInfo &hints);
@@ -175,7 +175,7 @@ protected:
   } m_decode;
 
   CDVDAudio m_dvdAudio; // audio output device
-  CDVDClock* m_pClock; // dvd master clock
+  OMXClock* m_pClock; // dvd master clock
   CDVDAudioCodec* m_pAudioCodec; // audio codec
   BitstreamStats m_audioStats;
 

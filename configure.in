@@ -2064,6 +2064,7 @@ OUTPUT_FILES="Makefile \
     xbmc/cores/Makefile \
     xbmc/cores/VideoRenderers/Makefile \
     xbmc/cores/omxplayer/Makefile \
+    xbmc/cores/omxaeplayer/Makefile \
     xbmc/cores/dvdplayer/Makefile \
     lib/Makefile \
     lib/libdvd/Makefile \

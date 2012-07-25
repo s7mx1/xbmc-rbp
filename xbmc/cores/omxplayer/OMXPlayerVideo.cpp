@@ -41,6 +41,7 @@
 #include "windowing/WindowingFactory.h"
 #include "DVDOverlayRenderer.h"
 #include "settings/GUISettings.h"
+#include "settings/AdvancedSettings.h"
 #include "settings/Settings.h"
 #include "cores/VideoRenderers/RenderFormats.h"
 #include "cores/VideoRenderers/RenderFlags.h"
@@ -439,7 +440,7 @@ void OMXPlayerVideo::Output(int iGroupId, double pts, bool bDropPacket)
   double pts_media = m_av_clock->OMXMediaTime();
   ProcessOverlays(iGroupId, pts_media);
 
-  while(!CThread::m_bStop && m_av_clock->GetAbsoluteClock(false) < (iCurrentClock + iSleepTime + DVD_MSEC_TO_TIME(500)) )
+  while(!CThread::m_bStop && CDVDClock::GetAbsoluteClock(false) < (iCurrentClock + iSleepTime + DVD_MSEC_TO_TIME(500)) )
     Sleep(1);
 
   g_renderManager.FlipPage(CThread::m_bStop, (iCurrentClock + iSleepTime) / DVD_TIME_BASE, -1, FS_NONE);
@@ -454,6 +455,13 @@ void OMXPlayerVideo::Process()
   bool bRequestDrop = false;
 
   m_videoStats.Start();
+
+  //mpeg4/xvid av sync hack
+  if ( g_advancedSettings.m_videoAudioEngine )
+  { 
+    if (m_hints.codec == CODEC_ID_MPEG4)
+      m_iVideoDelay -= 800000;
+  }
 
   while(!m_bStop)
   {
@@ -508,7 +516,7 @@ void OMXPlayerVideo::Process()
       if(pMsgGeneralResync->m_timestamp != DVD_NOPTS_VALUE)
         pts = pMsgGeneralResync->m_timestamp;
 
-      double delay = m_FlipTimeStamp - m_av_clock->GetAbsoluteClock();
+      double delay = m_FlipTimeStamp - CDVDClock::GetAbsoluteClock();
       if( delay > frametime ) delay = frametime;
       else if( delay < 0 )    delay = 0;
 
@@ -533,9 +541,9 @@ void OMXPlayerVideo::Process()
         CLog::Log(LOGDEBUG, "COMXPlayerVideo - CDVDMsg::GENERAL_DELAY(%f)", timeout);
 
         timeout *= (double)DVD_PLAYSPEED_NORMAL / abs(m_speed);
-        timeout += m_av_clock->GetAbsoluteClock();
+        timeout += CDVDClock::GetAbsoluteClock();
 
-        while(!m_bStop && m_av_clock->GetAbsoluteClock() < timeout)
+        while(!m_bStop && CDVDClock::GetAbsoluteClock() < timeout)
           Sleep(1);
       }
     }
@@ -624,9 +632,9 @@ void OMXPlayerVideo::Process()
           pPacket->pts = pts;
         else if (pPacket->pts == DVD_NOPTS_VALUE)
           pPacket->pts = pPacket->dts;
-
+        
         if(pPacket->pts != DVD_NOPTS_VALUE)
-          pPacket->pts += m_iVideoDelay;
+          pPacket->pts += m_iVideoDelay - DVD_SEC_TO_TIME(g_renderManager.GetDisplayLatency());
 
         if(pPacket->duration == 0)
           pPacket->duration = frametime;
