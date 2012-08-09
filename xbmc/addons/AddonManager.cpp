@@ -31,7 +31,6 @@
 #include "settings/AdvancedSettings.h"
 #include "utils/log.h"
 #include "utils/XBMCTinyXML.h"
-#include "dialogs/GUIDialogYesNo.h"
 #ifdef HAS_VISUALISATION
 #include "Visualisation.h"
 #endif
@@ -45,6 +44,7 @@
 #include "Repository.h"
 #include "Skin.h"
 #include "Service.h"
+#include "Util.h"
 
 using namespace std;
 
@@ -115,6 +115,12 @@ AddonPtr CAddonMgr::Factory(const cp_extension_t *props)
         if (type == ADDON_SCREENSAVER && 0 == strnicmp(props->plugin->identifier, "screensaver.xbmc.builtin.", 25))
         { // built in screensaver
           return AddonPtr(new CAddon(props));
+        }
+        if (type == ADDON_SCREENSAVER)
+        { // Python screensaver
+          CStdString library = CAddonMgr::Get().GetExtValue(props->configuration, "@library");
+          if (URIUtils::GetExtension(library).Equals(".py", false))
+            return AddonPtr(new CScreenSaver(props));
         }
 #if defined(_LINUX) && !defined(TARGET_DARWIN)
         if ((value = GetExtValue(props->plugin->extensions->configuration, "@library_linux")) && value.empty())
